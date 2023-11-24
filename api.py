@@ -68,7 +68,6 @@ def ljsynthesize(text, steps):
 #         audios.append(ljinference.inference(text, noise, diffusion_steps=7, embedding_scale=1))
 #     return np.concatenate(audios)
 
-@cross_origin()
 @app.route("/api/v1/stream", methods=['POST'])
 def serve_wav_stream(voice, hash):
     if 'text' not in request.form or 'voice' not in request.form:
@@ -98,7 +97,6 @@ def serve_wav_stream(voice, hash):
     return Response(generate(), mimetype="audio/x-wav")
 
 
-@cross_origin()
 @app.route("/api/v1/static", methods=['POST'])
 def serve_wav(voice, hash):
     if 'text' not in request.form or 'voice' not in request.form:
