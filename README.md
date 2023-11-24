@@ -79,7 +79,7 @@ text = 'Long text here...'
 texts = split_and_recombine_text(text)
 audios = []
 voice = msinference.compute_style('voice.wav')
-for t in progress.tqdm(texts):
+for t in texts:
     audios.append(styletts2importable.inference(t, voice, alpha=0.3, beta=0.7, diffusion_steps=7, embedding_scale=1))
 write('result.wav', 24000, np.concatenate(audios))
 ```
