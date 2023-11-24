@@ -17,7 +17,11 @@ Online demo: [Hugging Face](https://huggingface.co/spaces/styletts2/styletts2) (
 - [x] Test training code for multi-speaker models (VCTK and LibriTTS)
 - [x] Finish demo code for multispeaker model and upload pre-trained models
 - [x] Add a finetuning script for new speakers with base pre-trained multispeaker models
+- [x] REST API
+- [x] Importable inference script (PR #78)
 - [ ] Fix DDP (accelerator) for `train_second.py` **(I have tried everything I could to fix this but had no success, so if you are willing to help, please see [#7](https://github.com/yl4579/StyleTTS2/issues/7))**
+- [ ] Pip package
+- [ ] Demo of audio streaming
 
 ## Pre-requisites
 1. Python >= 3.7
@@ -41,6 +45,18 @@ sudo apt-get install espeak-ng
 ```
 4. Download and extract the [LJSpeech dataset](https://keithito.com/LJ-Speech-Dataset/), unzip to the data folder and upsample the data to 24 kHz. The text aligner and pitch extractor are pre-trained on 24 kHz data, but you can easily change the preprocessing and re-train them using your own preprocessing. 
 For LibriTTS, you will need to combine train-clean-360 with train-clean-100 and rename the folder train-clean-460 (see [val_list_libritts.txt](https://github.com/yl4579/StyleTTS/blob/main/Data/val_list_libritts.txt) as an example).
+
+## Streaming API
+
+You can use StyleTTS 2 in your projects by launching the HTTP API with streaming support. Synthesize text from your frontend apps, etc by making HTTP calls to the API server. The server uses Flask. It has not been extensively tested and should not be used for production purposes.
+
+API documentation may be found in the [`API_DOCS.md`](API_DOCS.md) file.
+
+Launch server:
+
+```
+python api.py
+```
 
 ## Python API
 
@@ -80,7 +96,7 @@ texts = split_and_recombine_text(text)
 audios = []
 voice = msinference.compute_style('voice.wav')
 for t in texts:
-    audios.append(styletts2importable.inference(t, voice, alpha=0.3, beta=0.7, diffusion_steps=7, embedding_scale=1))
+    audios.append(msinference.inference(t, voice, alpha=0.3, beta=0.7, diffusion_steps=7, embedding_scale=1))
 write('result.wav', 24000, np.concatenate(audios))
 ```
 

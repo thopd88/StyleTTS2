@@ -13,7 +13,7 @@ import json
 from tortoise.utils.text import split_and_recombine_text
 from flask import Flask, Response, request, jsonify
 from scipy.io.wavfile import write
-
+import numpy as np
 import ljinference
 import msinference
 import torch
@@ -67,37 +67,34 @@ def ljsynthesize(text, steps):
 #         audios.append(ljinference.inference(text, noise, diffusion_steps=7, embedding_scale=1))
 #     return np.concatenate(audios)
 
-# @cross_origin()
-# @app.route("/api/v1/stream/<voice>/<hash>")
-# def serve_wav_stream(voice, hash):
-#     h = re.sub(r"[^a-zA-Z0-9]", "", hash)
-#     voice = re.sub(r"[^a-zA-Z0-9_]", "", voice)
-#     if not os.path.isfile(f"cache/{h}.txt"):
-#         return "NO TEXT PATH"
-#     txt = err_msg
-#     with open(f"cache/{h}.txt", "r") as f:
-#         txt = f.read()
-#     texts = split_and_recombine_text(txt, 100, 200)
-
-#     def generate():
-#         print("Request sent")
-#         is_first_chunk = True
-#         wav_header = genHeader(44100, 16, 1)
-#         for j, text in enumerate(texts):
-#             # for i in range(3):
-#             print(f"GENERATING {j}/{len(texts)}")
-#             path = do_tts(text, voice)
-#             print("{DONE}")
-#             with open(path, "rb") as wav_file:
-#                 wav_file.read(44)
-#                 if is_first_chunk:
-#                     data = wav_header + wav_file.read()
-#                     is_first_chunk = False
-#                 else:
-#                     data = wav_file.read()
-#                 yield data
-
-#     return Response(generate(), mimetype="audio/x-wav")
+@cross_origin()
+@app.route("/api/v1/stream", methods=['POST'])
+def serve_wav_stream(voice, hash):
+    if 'text' not in request.form or 'voice' not in request.form:
+        error_response = {'error': 'Missing required fields. Please include "text" and "voice" in your request.'}
+        return jsonify(error_response), 400
+    text = request.form['text'].strip()
+    voice = request.form['voice'].strip().lower()
+    if not voice in voices:
+        error_response = {'error': 'Invalid voice selected'}
+        return jsonify(error_response), 400
+    v = voices[voice]
+    texts = split_and_recombine_text(txt)
+    def generate():
+        wav_header = genHeader(24000, 16, 1)
+        is_first_chunk = True
+        for t in texts:
+            wav = msinference.inference(t, voice, alpha=0.3, beta=0.7, diffusion_steps=7, embedding_scale=1)
+            output_buffer = io.BytesIO()
+            write(output_buffer, 24000, wav)
+            output_buffer.read(44)
+            if is_first_chunk:
+                data = wav_header + wav_file.read()
+                is_first_chunk = False
+            else:
+                data = wav_file.read()
+            yield data
+    return Response(generate(), mimetype="audio/x-wav")
 
 
 @cross_origin()
@@ -114,19 +111,12 @@ def serve_wav(voice, hash):
     v = voices[voice]
     texts = split_and_recombine_text(txt)
     audios = []
-
+    for t in texts:
+        audios.append(msinference.inference(t, voice, alpha=0.3, beta=0.7, diffusion_steps=7, embedding_scale=1))
     output_buffer = io.BytesIO()
-    concatenated_audio.export(output_buffer, format="wav")
-
-    # Set the response headers
+    write(output_buffer, 24000, np.concatenate(audios))
     response = Response(output_buffer.getvalue())
     response.headers["Content-Type"] = "audio/wav"
-
     return response
-
-
-print("=== STEP 3: STARTING SERVER ===")
 if __name__ == "__main__":
-    # app.run(debug=True)
-    app.config["TEMPLATES_AUTO_RELOAD"] = use_debug
     app.run("0.0.0.0", port=port)

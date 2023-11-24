@@ -1,3 +1,4 @@
+# Gradio demo of StyleTTS 2 by @fakerybakery
 import gradio as gr
 import msinference
 import ljinference
