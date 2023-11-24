@@ -21,3 +21,4 @@ cached-path
 tortoise-tts # for the Gradio demo, splitting text
 flask # for api
 markdown # for api
+flask-cors
