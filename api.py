@@ -69,7 +69,7 @@ def ljsynthesize(text, steps):
 #     return np.concatenate(audios)
 
 @app.route("/api/v1/stream", methods=['POST'])
-def serve_wav_stream(voice, hash):
+def serve_wav_stream():
     if 'text' not in request.form or 'voice' not in request.form:
         error_response = {'error': 'Missing required fields. Please include "text" and "voice" in your request.'}
         return jsonify(error_response), 400
@@ -98,7 +98,7 @@ def serve_wav_stream(voice, hash):
 
 
 @app.route("/api/v1/static", methods=['POST'])
-def serve_wav(voice, hash):
+def serve_wav():
     if 'text' not in request.form or 'voice' not in request.form:
         error_response = {'error': 'Missing required fields. Please include "text" and "voice" in your request.'}
         return jsonify(error_response), 400
