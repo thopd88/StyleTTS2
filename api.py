@@ -17,6 +17,7 @@ import numpy as np
 import ljinference
 import msinference
 import torch
+from flask_cors import CORS
 
 
 def genHeader(sampleRate, bitsPerSample, channels):
