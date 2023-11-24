@@ -79,7 +79,7 @@ def serve_wav_stream():
         error_response = {'error': 'Invalid voice selected'}
         return jsonify(error_response), 400
     v = voices[voice]
-    texts = split_and_recombine_text(txt)
+    texts = split_and_recombine_text(text)
     def generate():
         wav_header = genHeader(24000, 16, 1)
         is_first_chunk = True
@@ -108,7 +108,7 @@ def serve_wav():
         error_response = {'error': 'Invalid voice selected'}
         return jsonify(error_response), 400
     v = voices[voice]
-    texts = split_and_recombine_text(txt)
+    texts = split_and_recombine_text(text)
     audios = []
     for t in texts:
         audios.append(msinference.inference(t, voice, alpha=0.3, beta=0.7, diffusion_steps=7, embedding_scale=1))
