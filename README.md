@@ -194,7 +194,7 @@ You can import StyleTTS 2 and run it in your own code. However, the inference de
 
 ## License
 
-I know, I don't like GPL either. But this package depends on `phonemizer`, which is GPL licensed. [Check out the original repository for a MIT-licensed version!](https://github.com/yl4579/StyleTTS2)
+This package depends on `phonemizer`, which is GPL licensed. [Check out the original repository for a MIT-licensed version!](https://github.com/yl4579/StyleTTS2)
 
 Copyright (C) 2023 Aaron (Yinghao) Li (under the MIT license). 
 Copyright (C) 2023 mrfakename.
