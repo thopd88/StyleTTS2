@@ -1,5 +1,8 @@
 # StyleTTS 2 API
 
+> [!CAUTION]
+> The Streaming API is not fully implemented yet.
+
 [Original Repo](https://github.com/yl4579/StyleTTS2) - [CLI Tool](https://github.com/fakerybakery/styletTS2-cli) - **Streaming API**
 
 (GPL licensed due to Phonemizer. Should I switch to OpenPhonemizer and make it MIT-licensed?)
