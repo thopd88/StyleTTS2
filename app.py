@@ -66,7 +66,7 @@ with gr.Blocks() as clone:
         with gr.Column(scale=1):
             clinp = gr.Textbox(label="Văn bản", info="Bạn muốn đọc gì? CHÚ Ý: CHỈ HỖ TRỢ TIẾNG ANH Ở PHIÊN BẢN NÀY", interactive=True)
             clvoice = gr.Audio(label="Giọng nói mẫu", interactive=True, type='filepath', max_length=300)
-            vcsteps = gr.Slider(minimum=5, maximum=40, value=20, step=1, label="Số bước lặp AI", info="Càng cao thì chất lượng càng tốt, nhưng chậm hơn", interactive=True)
+            vcsteps = gr.Slider(minimum=5, maximum=100, value=20, step=1, label="Số bước lặp AI", info="Càng cao thì chất lượng càng tốt, nhưng chậm hơn", interactive=True)
         with gr.Column(scale=1):
             clbtn = gr.Button("Tạo giọng nói", variant="primary")
             claudio = gr.Audio(interactive=False, label="Kết quả")
