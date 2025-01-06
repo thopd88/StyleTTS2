@@ -99,5 +99,13 @@ Demo by [mrfakename](https://twitter.com/realmrfakename). I am not affiliated wi
 This is the local version of the demo
 """)
 if __name__ == "__main__":
-    demo.queue(api_open=False, max_size=15).launch(show_api=False)
+    demo.queue(api_open=False, max_size=15).launch(
+        server_name="0.0.0.0",
+        server_port=7860,
+        ssl_certfile="ssl/ssl.cert",
+        ssl_keyfile="ssl/ssl.key",
+        ssl_verify=False,
+        show_api=False,
+        share=False
+    )
 
