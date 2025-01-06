@@ -36,10 +36,10 @@ def synthesize(text, voice, lngsteps, password, progress=gr.Progress()):
     return (24000, np.concatenate(audios))
 def clsynthesize(text, voice, vcsteps):
     if text.strip() == "":
-        raise gr.Error("You must enter some text")
+        raise gr.Error("Chưa có nội dung")
     # if global_phonemizer.phonemize([text]) > 300:
-    if len(text) > 400:
-        raise gr.Error("Text must be under 400 characters")
+    if len(text) > 1000:
+        raise gr.Error("Nội dung cần ít hơn 1000 ký tự")
     return (24000, msinference.inference(text, msinference.compute_style(voice), alpha=0.3, beta=0.7, diffusion_steps=vcsteps, embedding_scale=1))
 def ljsynthesize(text):
     if text.strip() == "":
@@ -64,8 +64,8 @@ with gr.Blocks() as vctk: # just realized it isn't vctk but libritts but i'm too
 with gr.Blocks() as clone:
     with gr.Row():
         with gr.Column(scale=1):
-            clinp = gr.Textbox(label="Văn bản", info="Bạn muốn đọc gì? Công cụ AI này hoạt động tốt hơn với các câu hoàn chỉnh.", interactive=True)
-            clvoice = gr.Audio(label="Giọng nói", interactive=True, type='filepath', max_length=300)
+            clinp = gr.Textbox(label="Văn bản", info="Bạn muốn đọc gì? CHÚ Ý: CHỈ HỖ TRỢ TIẾNG ANH Ở PHIÊN BẢN NÀY", interactive=True)
+            clvoice = gr.Audio(label="Giọng nói mẫu", interactive=True, type='filepath', max_length=300)
             vcsteps = gr.Slider(minimum=5, maximum=40, value=20, step=1, label="Số bước lặp AI", info="Càng cao thì chất lượng càng tốt, nhưng chậm hơn", interactive=True)
         with gr.Column(scale=1):
             clbtn = gr.Button("Tạo giọng nói", variant="primary")
