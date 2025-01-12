@@ -80,20 +80,7 @@ with gr.Blocks() as lj:
             ljaudio = gr.Audio(interactive=False, label="Kết quả")
             ljbtn.click(ljsynthesize, inputs=[ljinp], outputs=[ljaudio], concurrency_limit=4)
 with gr.Blocks(title="VNUIS IDT - Công cụ AI sao chép giọng nói StyleTTS 2", css="footer{display:none !important}", theme=theme) as demo:
-    gr.Markdown("""# VNUIS IDT - Công cụ AI sao chép giọng nói StyleTTS 2
-
-Triển khai bởi Nhóm Nghiên cứu Đổi mới sáng tạo và Chuyển đổi số, Trường Quốc Tế, Đại học Quốc gia Hà Nội
-
-**Cảnh báo quan trọng**
-
-Công cụ AI này chỉ dành cho việc tổng hợp giọng nói cá nhân của bạn. Bạn hoàn toàn chịu trách nhiệm về việc sử dụng công cụ này.
-
-**Lưu ý:**
-
-1. Bạn không được phép sử dụng giọng nói của người khác để sao chép hoặc tạo giọng nói mà không có sự cho phép.
-2. Bất kỳ hành vi vi phạm nào liên quan đến quyền riêng tư hoặc bản quyền sẽ do bạn chịu trách nhiệm trước pháp luật.
-
-**Công cụ AI này hoạt động tốt hơn với các đoạn văn bản dài.** Ví dụ, yêu cầu nói "Hello" sẽ cho ra kết quả chất lượng thấp hơn so với việc yêu cầu một đoạn dài.""")
+    gr.Markdown("""# VNUIS IDT - Nhóm Nghiên cứu Đổi mới sáng tạo và Chuyển đổi số, Trường Quốc Tế, Đại học Quốc gia Hà Nội""")
     gr.TabbedInterface([clone], ['Sao chép giọng nói'])
     gr.Markdown("""
 [Paper](https://arxiv.org/abs/2306.07691) - [Samples](https://styletts2.github.io/) - [Code](https://github.com/yl4579/StyleTTS2) - [Interface](https://twitter.com/realmrfakename).
